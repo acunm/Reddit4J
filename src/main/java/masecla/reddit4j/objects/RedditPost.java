@@ -3,6 +3,8 @@ package masecla.reddit4j.objects;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import masecla.reddit4j.client.Reddit4J;
+import masecla.reddit4j.objects.subreddit.GalleryData;
+import masecla.reddit4j.objects.subreddit.GalleryMetadata;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +19,8 @@ public class RedditPost extends RedditThing implements RedditPostActions {
     private Reddit4J client;
 
     private String name;
+    @SerializedName("post_hint")
+    private String postHint;
 
     /**
      * the account name of the poster. null if this is a promotional link
@@ -207,6 +211,16 @@ public class RedditPost extends RedditThing implements RedditPostActions {
      */
     private long created;
 
+    @SerializedName("is_gallery")
+    private Boolean isGallery;
+
+    @SerializedName("gallery_data")
+    private GalleryData galleryData;
+    //media_metadata
+
+    @SerializedName("media_metadata")
+    private GalleryMetadata galleryMetadata;
+
     /**
      * The time of creation in UTC epoch-second format. Note that neither of these ever have a non-zero fraction.
      *
@@ -278,9 +292,5 @@ public class RedditPost extends RedditThing implements RedditPostActions {
     @Override
     public void unspoiler() throws IOException, InterruptedException {
         this.client.unspoiler(this.name);
-    }
-
-    public void setClient(Reddit4J client) {
-        this.client = client;
     }
 }

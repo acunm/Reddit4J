@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URL;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,35 +68,6 @@ public class Reddit4J {
         initialize();
     }
 
-    public void userlessConnect() throws IOException, InterruptedException, AuthenticationException {
-        if (userAgent == null) {
-            throw new NullPointerException("User Agent was not set!");
-        }
-        Connection conn = Jsoup.connect(BASE_URL + "/api/v1/access_token").ignoreContentType(true)
-                .ignoreHttpErrors(true).method(Method.POST).userAgent(userAgent);
-        conn.data("grant_type", "client_credentials");
-
-        // Generate the Authorization header
-        String combination = clientId + ":" + clientSecret;
-        combination = Base64.getEncoder().encodeToString(combination.getBytes());
-        conn.header("Authorization", "Basic " + combination);
-
-        Response response = httpClient.execute(conn);
-        if (response.statusCode() == 401) {
-            throw new AuthenticationException("Unauthorized! Invalid clientId or clientSecret!");
-        }
-
-        JsonObject object = JsonParser.parseString(response.body()).getAsJsonObject();
-
-        // Something went wrong
-        if (object.keySet().contains("error")) {
-            throw new AuthenticationException(object.get("error").getAsString());
-        }
-        this.token = object.get("access_token").getAsString();
-        this.expirationDate = object.get("expires_in").getAsInt() + Instant.now().getEpochSecond();
-        this.clientType = ClientType.APPLICATION_ONLY;
-    }
-
     public void connect() throws IOException, InterruptedException, AuthenticationException {
         if (userAgent == null) {
             throw new NullPointerException("User Agent was not set!");
@@ -133,6 +106,15 @@ public class Reddit4J {
         return connection;
     }
 
+    public Connection useEndpoint(String subreddit, String postId) {
+        Connection connection = Jsoup.connect("https://www.reddit.com/r" + "/" + subreddit + "/comments" + "/" + postId);
+        //connection.header("Authorization", "bearer " + token).ignoreContentType(true).userAgent(userAgent);
+        connection.userAgent(userAgent);
+        connection.ignoreContentType(true);
+        connection.maxBodySize(0);
+        return connection;
+    }
+
     public void ensureConnection() throws IOException, InterruptedException, AuthenticationException {
         // There is no token
         if (token == null) {
@@ -142,7 +124,6 @@ public class Reddit4J {
         // The token is expired
         if (Instant.now().getEpochSecond() > expirationDate) {
             connect();
-            return;
         }
     }
 
