@@ -14,7 +14,7 @@ public class GalleryData {
 
     @Getter
     @Setter
-    private static class GalleryDataItem{
+    public static class GalleryDataItem{
         @SerializedName("media_id")
         private String mediaId;
         private String id;

@@ -1,10 +1,10 @@
 package masecla.reddit4j.objects.subreddit;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -21,10 +21,14 @@ public class GalleryMetadata {
     public static class GalleryMetadataItem{
         private String id;
         private String status;
+
+        @SerializedName("e")
         private String e;
-        private String m;
-        private List<ImageData> p;
-        private List<ImageSomething> s;
+        @SerializedName("m")
+        private String mimeType;
+        @SerializedName("p")
+        private List<ImageData> pictures;
+        private ImageSomething s;
 
 
         @Getter
@@ -32,7 +36,8 @@ public class GalleryMetadata {
         public static class ImageData{
             private Integer x;
             private Integer y;
-            private String u;
+            @SerializedName("u")
+            private String url;
         }
 
         @Getter
@@ -40,7 +45,8 @@ public class GalleryMetadata {
         public static class ImageSomething{
             private Integer x;
             private Integer y;
-            private String u;
+            @SerializedName("u")
+            private String url;
         }
     }
 }
