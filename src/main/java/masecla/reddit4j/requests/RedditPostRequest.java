@@ -6,7 +6,7 @@ import masecla.reddit4j.client.Reddit4J;
 import masecla.reddit4j.deserializer.GalleryDataDeserializer;
 import masecla.reddit4j.deserializer.GalleryMetadataDeserializer;
 import masecla.reddit4j.deserializer.RedditImageDataDeserializer;
-import masecla.reddit4j.deserializer.RedditVideoSerializer;
+import masecla.reddit4j.deserializer.RedditVideoDeserializer;
 import masecla.reddit4j.exceptions.AuthenticationException;
 import masecla.reddit4j.objects.*;
 import masecla.reddit4j.objects.subreddit.GalleryData;
@@ -41,7 +41,6 @@ public class RedditPostRequest extends AbstractRedditPostRequest<RedditPost, Red
         JsonObject postData = rootArray.get(0).getAsJsonObject();
         RedditData<RedditListing<RedditData<RedditPost>>> postJson = gson.fromJson(postData, ttData.getType());
 
-
         RedditPost redditPost = postJson.getData()
                 .getChildren()
                 .get(0)
@@ -57,13 +56,11 @@ public class RedditPostRequest extends AbstractRedditPostRequest<RedditPost, Red
             gsonBuilder.registerTypeAdapter(GalleryMetadata.class, new GalleryMetadataDeserializer());
             gsonBuilder.registerTypeAdapter(GalleryData.class, new GalleryDataDeserializer());
         }
-
         if("image".equals(postType)){
             gsonBuilder.registerTypeAdapter(RedditImage.class, new RedditImageDataDeserializer());
         }
-
         if("video".equals(postType)){
-            gsonBuilder.registerTypeAdapter(RedditVideo.class, new RedditVideoSerializer());
+            gsonBuilder.registerTypeAdapter(RedditVideo.class, new RedditVideoDeserializer());
         }
 
         return gsonBuilder.create();

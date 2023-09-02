@@ -25,7 +25,7 @@ public class RedditImageDataDeserializer implements JsonDeserializer<RedditImage
         source.setWidth(sourceJson.get("width").getAsInt());
         source.setHeight(sourceJson.get("height").getAsInt());
 
-        for(JsonElement element : resolutions){
+        for(JsonElement element : resolutions) {
             JsonObject elementJson = element.getAsJsonObject();
             RedditImage.ImageData imageData = new RedditImage.ImageData();
             imageData.setUrl(elementJson.get("url").getAsString().replaceAll("&amp;", "&"));
