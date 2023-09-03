@@ -6,27 +6,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RedditVideo extends RedditPost {
-    private VideoDetails media;
+public class RedditVideo {
 
-    @Getter
-    @Setter
-    public static class VideoDetails {
-        private RedditVideoDetails redditVideo;
-
-        @Getter
-        @Setter
-        public static class RedditVideoDetails{
-            private String isCompleted;
-            private String fallback_url;
-            private String scrubberMediaUrl;
-            private String dashUrl;
-            private String hlsUrl;
-            private Integer bitrateKbps;
-            private Integer height;
-            private Integer width;
-            private Integer duration;
-            private Boolean isGif;
-        }
-    }
+    private String isCompleted;
+    private String fallbackUrl;
+    private String scrubberMediaUrl;
+    private String dashUrl;
+    private String hlsUrl;
+    private Integer bitrateKbps;
+    private Integer height;
+    private Integer width;
+    private Integer duration;
+    private Boolean isGif;
 }

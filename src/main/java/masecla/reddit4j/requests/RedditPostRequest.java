@@ -60,7 +60,7 @@ public class RedditPostRequest extends AbstractRedditPostRequest<RedditPost, Red
             gsonBuilder.registerTypeAdapter(RedditImage.class, new RedditImageDataDeserializer());
         }
         if("video".equals(postType)){
-            gsonBuilder.registerTypeAdapter(RedditVideo.class, new RedditVideoDeserializer());
+            gsonBuilder.registerTypeAdapter(RedditPost.class, new RedditVideoDeserializer());
         }
 
         return gsonBuilder.create();

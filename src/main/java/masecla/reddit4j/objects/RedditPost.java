@@ -85,7 +85,7 @@ public class RedditPost extends RedditThing implements RedditPostActions, Reddit
     /**
      * Used for streaming video. Detailed information about the video and it's origins are placed here
      */
-    private Object media;
+    private RedditVideo media;
 
     /**
      * Used for streaming video. Technical embed specific information is found here.
